@@ -4,18 +4,16 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
   return (
     <nav className="navbar">
-      <div className="navbar-content">
-        <div className="navbar-links">
-          <Link to="/">
-            <i className="fas fa-home" />
-          </Link>
-          <Link to="/wishlist">
-            <i className="fas fa-gifts" />
-          </Link>
-          <Link to="/library">
-            <i className="fas fa-layer-group" />
-          </Link>
-        </div>
+      <div className="navbar__content">
+        <Link to="/" className="navbar__link navbar__link--selected">
+          <i className="fas fa-home" />
+        </Link>
+        <Link to="/wishlist" className="navbar__link">
+          <i className="fas fa-gift" />
+        </Link>
+        <Link to="/library" className="navbar__link">
+          <i className="fas fa-layer-group" />
+        </Link>
       </div>
     </nav>
   );

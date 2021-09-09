@@ -1,22 +1,24 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import cheapshark from '../../apis/cheapshark';
+import rawg from '../../apis/rawg';
 
 const initialState = {
   results: [],
+  shownResults: [],
+  previewResults: [],
   status: 'idle',
-  typing: false,
 };
 
 export const fetchGames = createAsyncThunk(
   'games/fetchGames',
   async (query) => {
-    const response = await cheapshark.get('/games', {
+    const response = await rawg.get('/games', {
       params: {
-        title: query,
+        search: query,
       },
     });
 
-    return response.data;
+    return response.data.results;
   }
 );
 
@@ -24,14 +26,18 @@ const gamesSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    changeTypingValue(state, action) {
-      state.typing = action.payload;
+    emptyPreviewResults(state, action) {
+      state.previewResults = [];
+    },
+    fillShownResults(state, action) {
+      state.shownResults = state.results;
     },
   },
   extraReducers: {
     [fetchGames.fulfilled]: (state, action) => {
       state.status = 'succeeded';
       state.results = action.payload;
+      state.previewResults = action.payload.slice(0, 10);
     },
     [fetchGames.rejected]: (state, action) => {
       state.status = 'failed';
@@ -43,16 +49,14 @@ const gamesSlice = createSlice({
   },
 });
 
-export const { changeTypingValue } = gamesSlice.actions;
+export const { fillShownResults, emptyPreviewResults } = gamesSlice.actions;
 
 export default gamesSlice.reducer;
 
-export const selectAllGamesResults = (state) => state.games.results;
+export const selectGamesResults = (state) => state.games.results;
 
-export const selectLimitedGamesResults = (state) => {
-  return state.games.results.slice(0, 10);
-};
+export const selectPreviewResults = (state) => state.games.previewResults;
 
-export const selectTyping = (state) => state.games.typing;
+export const selectShownResults = (state) => state.games.shownResults;
 
 export const selectFetchGamesStatus = (state) => state.games.status;

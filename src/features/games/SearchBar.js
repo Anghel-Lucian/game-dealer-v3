@@ -1,18 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { selectTyping, fetchGames, changeTypingValue } from './gamesSlice';
+import {
+  fetchGames,
+  emptyPreviewResults,
+  fillShownResults,
+} from './gamesSlice';
 import GameResultsPreview from './GameResultsPreview';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
   const dispatch = useDispatch();
-  const typing = useSelector(selectTyping);
+
+  const filterCharacters = function (string) {
+    let modified = [];
+    string.split(' ').forEach((stringEl) => {
+      modified.push(
+        stringEl
+          .split('')
+          .filter((char) => char.match(/^[a-zA-Z0-9]+$/))
+          .join('')
+      );
+    });
+
+    return modified.join('-');
+  };
 
   useEffect(() => {
-    if (!query) return;
-    const timerId = setTimeout(() => dispatch(fetchGames(query)), 500);
-    dispatch(changeTypingValue(true));
+    if (!query) {
+      dispatch(emptyPreviewResults());
+      return;
+    }
+    const timerId = setTimeout(
+      () => dispatch(fetchGames(filterCharacters(query))),
+      500
+    );
 
     return () => clearInterval(timerId);
   }, [query]);
@@ -20,21 +42,29 @@ const SearchBar = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    // TODO: when the preview list unmounts, you need to reset the preliminary results to an empty array, otherwise, the next time you start typing, the old results will appear for a split second
-    dispatch(changeTypingValue(false));
+    if (!query) return;
+
+    // emptying results, results preview component will stop showing
+    dispatch(emptyPreviewResults());
+    // only show the full results when the user submits the form
+    dispatch(fillShownResults());
   };
 
   return (
     <div className="searchbar">
       <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          placeholder="Search for a game..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
+        <div className="searchbar__container">
+          <i className="fas fa-search searchbar__icon" />
+          <input
+            className="searchbar__input"
+            type="text"
+            placeholder="Search for a game..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
       </form>
-      {typing ? <GameResultsPreview /> : null}
+      <GameResultsPreview />
     </div>
   );
 };

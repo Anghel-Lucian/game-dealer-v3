@@ -1,15 +1,17 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectTyping } from './gamesSlice';
+import { selectShownResults } from './gamesSlice';
+import GameResultCard from '../../app/GameResultCard';
 
 const GamesResultsList = () => {
-  const typing = useSelector(selectTyping);
+  const shownResults = useSelector(selectShownResults);
 
-  if (!typing) {
-    return <div>Typing is now false, so component appears</div>;
-  }
+  const renderedGamesResults = () =>
+    shownResults.map((gameData) => {
+      return <GameResultCard gameData={gameData} />;
+    });
 
-  return <div></div>;
+  return <div className="game-results-list">{renderedGamesResults()}</div>;
 };
 
 export default GamesResultsList;
