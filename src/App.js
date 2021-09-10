@@ -7,6 +7,7 @@ import Navbar from './app/Navbar';
 
 import SearchBar from './features/games/SearchBar';
 import GamesResultsList from './features/games/GamesResultsList';
+import GameResultsPreview from './features/games/GameResultsPreview';
 
 const App = () => {
   return (
@@ -19,8 +20,13 @@ const App = () => {
               path="/"
               render={() => (
                 <React.Fragment>
-                  <SearchBar />
-                  <GamesResultsList />
+                  <div className="main-view__top-section">
+                    <SearchBar />
+                    <GameResultsPreview />
+                  </div>
+                  <div className="main-view__bottom-section">
+                    <GamesResultsList />
+                  </div>
                 </React.Fragment>
               )}
             />

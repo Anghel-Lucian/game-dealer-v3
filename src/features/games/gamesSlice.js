@@ -37,7 +37,7 @@ const gamesSlice = createSlice({
     [fetchGames.fulfilled]: (state, action) => {
       state.status = 'succeeded';
       state.results = action.payload;
-      state.previewResults = action.payload.slice(0, 10);
+      state.previewResults = action.payload.slice(0, 7);
     },
     [fetchGames.rejected]: (state, action) => {
       state.status = 'failed';
