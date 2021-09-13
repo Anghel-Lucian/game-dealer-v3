@@ -11,7 +11,7 @@ const initialState = {
 
 export const fetchGames = createAsyncThunk(
   'games/fetchGames',
-  async (query) => {
+  async (query, resultsNumber = '') => {
     const response = await rawg.get('/games', {
       params: {
         search: query,
@@ -21,6 +21,20 @@ export const fetchGames = createAsyncThunk(
     return response.data.results;
   }
 );
+
+// export const fetchPreviews = createAsyncThunk(
+//   'games/fetchGames',
+//   async (query, resultsNumber = 7) => {
+//     const response = await rawg.get('/games', {
+//       params: {
+//         search: query,
+//         page_size: resultsNumber,
+//       },
+//     });
+
+//     return response.data.results;
+//   }
+// );
 
 const gamesSlice = createSlice({
   name: 'users',
@@ -32,16 +46,38 @@ const gamesSlice = createSlice({
     fillShownResults(state, action) {
       state.shownResults = state.results;
     },
+    changeStatusToIdle(state, action) {
+      state.status = 'idle';
+    },
   },
   extraReducers: {
     [fetchGames.fulfilled]: (state, action) => {
-      state.status = 'succeeded';
-      state.results = action.payload;
-      state.previewResults = action.payload.slice(0, 7);
+      console.log(action.payload);
+
+      if (action.payload.length === 0) {
+        state.status = 'failed';
+      } else {
+        const parsedResults = action.payload.map((result) => {
+          return {
+            name: result.name,
+            backgroundImage: result.background_image,
+            genres: result.genres.map((genre) => genre.name).join(', '),
+            id: result.id,
+            released: result.released
+              ? `${result.released.split('-')[2]}/${
+                  result.released.split('-')[1]
+                }/${result.released.split('-')[0]}`
+              : null,
+          };
+        });
+
+        state.status = 'succeeded';
+        state.results = parsedResults;
+        state.previewResults = parsedResults.slice(0, 7);
+      }
     },
     [fetchGames.rejected]: (state, action) => {
       state.status = 'failed';
-      state.loading = false;
     },
     [fetchGames.pending]: (state, action) => {
       state.status = 'loading';
@@ -49,7 +85,8 @@ const gamesSlice = createSlice({
   },
 });
 
-export const { fillShownResults, emptyPreviewResults } = gamesSlice.actions;
+export const { fillShownResults, emptyPreviewResults, changeStatusToIdle } =
+  gamesSlice.actions;
 
 export default gamesSlice.reducer;
 

@@ -4,7 +4,7 @@
   --color-main: #141414;
   --color-main-light: #292929;
   --color-focus: #505050;
-  --color-active-background: #1b54ff;
+  --color-active-background: #3e6fff;
   --color-light: #ffffff;
   --color-dark: #000000;
   --color-medium: #a0a0a0;
@@ -264,4 +264,69 @@ body {
 
 .result-card:hover {
   transform: scale(1.02);
+}
+
+.result-card a {
+  text-decoration: none;
+}
+
+.result-card__title {
+  margin-top: 20px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-light);
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.result-card__title:hover {
+  color: var(--color-medium);
+}
+
+.result-card__options {
+  margin: 10px 0px;
+}
+
+.result-card__options .btn {
+  width: fit-content;
+  height: 25px;
+  background-color: var(--color-main);
+  color: var(--color-light);
+  border: none;
+  border-radius: 5px;
+  transition: all 0.3s;
+  padding: 2px 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.result-card__options .btn:hover {
+  cursor: pointer;
+  background-color: var(--color-active-background);
+}
+
+.btn__add-to-library {
+  margin-right: 10px;
+}
+
+.result-card__row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px 0px;
+  user-select: none;
+}
+
+.result-card__row:last-child {
+  border-top: 1px solid var(--color-focus);
+}
+.result-card__row:first-child {
+  border-top: none;
+}
+
+.result-card__row--value {
+  color: var(--color-light);
+}
+
+.result-card__row--field {
+  color: var(--color-focus);
 }

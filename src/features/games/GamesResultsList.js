@@ -8,7 +8,7 @@ const GamesResultsList = () => {
 
   const renderedGamesResults = () =>
     shownResults.map((gameData) => {
-      return <GameResultCard gameData={gameData} />;
+      return <GameResultCard gameData={gameData} key={gameData.id} />;
     });
 
   return <div className="game-results-list">{renderedGamesResults()}</div>;

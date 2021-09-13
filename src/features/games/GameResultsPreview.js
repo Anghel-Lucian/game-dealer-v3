@@ -12,15 +12,16 @@ const GameResultsPreview = () => {
     if (fetchGamesStatus === 'succeeded') {
       return (
         <ul className="preliminary-game-results__list">
-          {preliminaryResults.map((gameResult) => {
+          {preliminaryResults.map((gameResult, i) => {
             return (
               <li key={gameResult.id} className="preliminary-game-result">
+                {/* link to /games/:gameTitle OR id */}
                 <Link to="/">
                   <div className="preliminary-game-result__image-container">
                     <img
                       className="preliminary-game-result__image"
-                      alt="Game thumbnail"
-                      src={gameResult.background_image}
+                      alt={`${gameResult.name} thumbnail`}
+                      src={gameResult.backgroundImage}
                     />
                   </div>
                   <h1 className="preliminary-game-result__title">
@@ -41,7 +42,7 @@ const GameResultsPreview = () => {
         </div>
       );
 
-    if (fetchGamesStatus === 'error')
+    if (fetchGamesStatus === 'failed')
       return (
         <div className="error">
           <i className="fas fa-exclamation-triangle error__icon" />
@@ -49,6 +50,7 @@ const GameResultsPreview = () => {
         </div>
       );
 
+    // TODO:
     // if (user clicks outside of list)
     //   return null;
   };
