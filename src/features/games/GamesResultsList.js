@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectShownResults } from './gamesSlice';
+import { selectResults } from './gamesSlice';
 import GameResultCard from '../../app/GameResultCard';
 
 const GamesResultsList = () => {
-  const shownResults = useSelector(selectShownResults);
+  const shownResults = useSelector(selectResults);
 
   const renderedGamesResults = () =>
     shownResults.map((gameData) => {

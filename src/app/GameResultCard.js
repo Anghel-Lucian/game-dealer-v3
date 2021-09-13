@@ -15,7 +15,6 @@ const Card = ({ gameData }) => {
         <div className="result-card__title">{gameData.name}</div>
       </Link>
       <div className="result-card__options">
-        {/* I think I need to create a component for these buttons. I want them to dictate if the user adds or removes a game from the library/wishlist, so it will be a bit complex */}
         <button className="btn btn__add-to-library">
           Add to library <i className="fas fa-layer-group" />
         </button>
