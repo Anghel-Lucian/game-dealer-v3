@@ -8,7 +8,7 @@ import {
   changeStatusToIdle,
   changePreviewStatusToIdle,
   changeFullResultsOnly,
-} from './gamesSlice';
+} from './gamesSearchSlice';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
