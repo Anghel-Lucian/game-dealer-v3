@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { selectPreviewResults, selectFetchGamesStatus } from './gamesSlice';
+import { selectPreviewResults, selectPreviewStatus } from './gamesSlice';
 import { Link } from 'react-router-dom';
 
 const GameResultsPreview = () => {
   const preliminaryResults = useSelector(selectPreviewResults);
-  const fetchGamesStatus = useSelector(selectFetchGamesStatus);
+  const previewStatus = useSelector(selectPreviewStatus);
   const resultsContainer = useRef();
 
   const renderedPreviewResults = () => {
-    if (fetchGamesStatus === 'succeeded') {
+    if (previewStatus === 'succeeded') {
       return (
         <ul className="preliminary-game-results__list">
           {preliminaryResults.map((gameResult, i) => {
@@ -35,14 +35,14 @@ const GameResultsPreview = () => {
       );
     }
 
-    if (fetchGamesStatus === 'loading')
+    if (previewStatus === 'loading')
       return (
         <div className="loading-spinner-container">
           <div className="loading-spinner"></div>
         </div>
       );
 
-    if (fetchGamesStatus === 'failed')
+    if (previewStatus === 'failed')
       return (
         <div className="error">
           <i className="fas fa-exclamation-triangle error__icon" />

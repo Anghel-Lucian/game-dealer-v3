@@ -5,15 +5,15 @@ import { useHistory } from 'react-router-dom';
 import {
   fetchGames,
   emptyPreviewResults,
-  fillShownResults,
   changeStatusToIdle,
+  changePreviewStatusToIdle,
+  changeFullResultsOnly,
 } from './gamesSlice';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [timerId, setTimerId] = useState(null);
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const filterCharacters = function (string) {
     let modified = [];
@@ -32,16 +32,13 @@ const SearchBar = () => {
   useEffect(() => {
     if (!query) {
       dispatch(emptyPreviewResults());
-      dispatch(changeStatusToIdle());
+      dispatch(changePreviewStatusToIdle());
       return;
     }
-    const timerId = setTimeout(
-      () =>
-        dispatch(
-          fetchGames({ query: filterCharacters(query), fullResultsOnly: false })
-        ),
-      750
-    );
+    const timerId = setTimeout(() => {
+      dispatch(changeFullResultsOnly(false));
+      dispatch(fetchGames(filterCharacters(query)));
+    }, 750);
 
     setTimerId(timerId);
 
@@ -54,9 +51,9 @@ const SearchBar = () => {
     if (!query) return;
 
     clearInterval(timerId);
-    dispatch(
-      fetchGames({ query: filterCharacters(query), fullResultsOnly: true })
-    );
+    dispatch(changeFullResultsOnly(true));
+    dispatch(changeStatusToIdle());
+    dispatch(fetchGames(filterCharacters(query)));
     dispatch(emptyPreviewResults());
   };
 
