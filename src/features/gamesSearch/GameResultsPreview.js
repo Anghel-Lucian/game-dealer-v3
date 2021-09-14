@@ -1,12 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { selectPreviewResults, selectPreviewStatus } from './gamesSlice';
+import { selectPreviewResults, selectPreviewStatus } from './gamesSearchSlice';
 import { Link } from 'react-router-dom';
 
 const GameResultsPreview = () => {
+  // const [visible, setVisible] = useState(true);
   const preliminaryResults = useSelector(selectPreviewResults);
   const previewStatus = useSelector(selectPreviewStatus);
   const resultsContainer = useRef();
+
+  // document.addEventListener('click', (e) => {
+  //   if (e.target !== resultsContainer.current) {
+  //     setVisible(false);
+  //   }
+  // });
 
   const renderedPreviewResults = () => {
     if (previewStatus === 'succeeded') {
@@ -51,15 +58,17 @@ const GameResultsPreview = () => {
       );
 
     // TODO:
-    // if (user clicks outside of list)
-    //   return null;
   };
 
+  // console.log(visible);
+
+  // if (visible) {
   return (
     <section className="preliminary-game-results" ref={resultsContainer}>
       {renderedPreviewResults()}
     </section>
   );
+  // } else return null;
 };
 
 export default GameResultsPreview;

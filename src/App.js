@@ -5,9 +5,9 @@ import './css/App.css';
 
 import Navbar from './app/Navbar';
 
-import SearchBar from './features/games/SearchBar';
-import GamesResultsList from './features/games/GamesResultsList';
-import GameResultsPreview from './features/games/GameResultsPreview';
+import SearchBar from './features/gamesSearch/SearchBar';
+import GamesResultsList from './features/gamesSearch/GamesResultsList';
+import GameResultsPreview from './features/gamesSearch/GameResultsPreview';
 
 const App = () => {
   return (

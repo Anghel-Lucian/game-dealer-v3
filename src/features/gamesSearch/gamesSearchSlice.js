@@ -11,7 +11,7 @@ const initialState = {
 };
 
 export const fetchGames = createAsyncThunk(
-  'games/fetchGames',
+  'gamesSearch/fetchGames',
   async (query) => {
     const response = await rawg.get('/games', {
       params: {
@@ -23,8 +23,8 @@ export const fetchGames = createAsyncThunk(
   }
 );
 
-const gamesSlice = createSlice({
-  name: 'users',
+const gamesSearchSlice = createSlice({
+  name: 'gamesSearch',
   initialState,
   reducers: {
     emptyPreviewResults(state, action) {
@@ -60,9 +60,9 @@ const gamesSlice = createSlice({
           genres: result.genres.map((genre) => genre.name).join(', '),
           id: result.id,
           released: result.released
-            ? `${result.released.split('-')[2]}/${
+            ? `${result.released.split('-')[2]}.${
                 result.released.split('-')[1]
-              }/${result.released.split('-')[0]}`
+              }.${result.released.split('-')[0]}`
             : null,
         };
       });
@@ -103,16 +103,16 @@ export const {
   changeStatusToIdle,
   changePreviewStatusToIdle,
   changeFullResultsOnly,
-} = gamesSlice.actions;
+} = gamesSearchSlice.actions;
 
-export default gamesSlice.reducer;
+export default gamesSearchSlice.reducer;
 
-export const selectGamesResults = (state) => state.games.results;
+export const selectGamesResults = (state) => state.gamesSearch.results;
 
-export const selectPreviewResults = (state) => state.games.previewResults;
+export const selectPreviewResults = (state) => state.gamesSearch.previewResults;
 
-export const selectResults = (state) => state.games.results;
+export const selectResults = (state) => state.gamesSearch.results;
 
-export const selectStatus = (state) => state.games.status;
+export const selectStatus = (state) => state.gamesSearch.status;
 
-export const selectPreviewStatus = (state) => state.games.previewStatus;
+export const selectPreviewStatus = (state) => state.gamesSearch.previewStatus;
