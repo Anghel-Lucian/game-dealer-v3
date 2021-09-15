@@ -8,6 +8,7 @@ import Navbar from './app/Navbar';
 import SearchBar from './features/gamesSearch/SearchBar';
 import GamesResultsList from './features/gamesSearch/GamesResultsList';
 import GameResultsPreview from './features/gamesSearch/GameResultsPreview';
+import DisplayedGame from './features/displayedGame/DisplayedGame';
 
 const App = () => {
   return (
@@ -15,21 +16,18 @@ const App = () => {
       <div className="app-container">
         <Navbar />
         <div className="main-view">
+          <Route
+            path="/"
+            render={() => (
+              <div className="main-view__top-section">
+                <SearchBar />
+                <GameResultsPreview />
+              </div>
+            )}
+          />
           <Switch>
-            <Route
-              path="/"
-              render={() => (
-                <React.Fragment>
-                  <div className="main-view__top-section">
-                    <SearchBar />
-                    <GameResultsPreview />
-                  </div>
-                  <div className="main-view__bottom-section">
-                    <GamesResultsList />
-                  </div>
-                </React.Fragment>
-              )}
-            />
+            <Route path="/search/:query" exact component={GamesResultsList} />
+            <Route path="/games/:gameSlug" exact component={DisplayedGame} />
           </Switch>
         </div>
       </div>

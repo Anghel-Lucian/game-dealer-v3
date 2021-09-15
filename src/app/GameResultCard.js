@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Card = ({ gameData }) => {
+const GameResultCard = ({ gameData }) => {
   return (
     <div className="result-card">
       {/* here a mini img slider */}
@@ -11,7 +11,7 @@ const Card = ({ gameData }) => {
         </div>
         <div className="result-card__metascore">78</div>
       </div> */}
-      <Link to="/">
+      <Link to={`/games/${gameData.slug}`}>
         <div className="result-card__title">{gameData.name}</div>
       </Link>
       <div className="result-card__options">
@@ -42,4 +42,4 @@ const Card = ({ gameData }) => {
   );
 };
 
-export default Card;
+export default GameResultCard;
