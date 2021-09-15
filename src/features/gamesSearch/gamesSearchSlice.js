@@ -56,6 +56,7 @@ const gamesSearchSlice = createSlice({
       const parsedResults = results.map((result) => {
         return {
           name: result.name,
+          slug: result.slug,
           backgroundImage: result.background_image,
           genres: result.genres.map((genre) => genre.name).join(', '),
           id: result.id,

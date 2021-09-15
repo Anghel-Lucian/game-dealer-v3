@@ -5,6 +5,6 @@ import displayedGameSlice from '../features/displayedGame/displayedGameSlice';
 export default configureStore({
   reducer: {
     gamesSearch: gamesSearchSlice,
-    game: displayedGameSlice,
+    displayedGame: displayedGameSlice,
   },
 });

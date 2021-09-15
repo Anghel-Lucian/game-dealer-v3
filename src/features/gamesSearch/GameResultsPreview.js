@@ -1,19 +1,21 @@
-import React, { useCallback, useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { selectPreviewResults, selectPreviewStatus } from './gamesSearchSlice';
+import React, { useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  selectPreviewResults,
+  selectPreviewStatus,
+  emptyPreviewResults,
+} from './gamesSearchSlice';
 import { Link } from 'react-router-dom';
 
 const GameResultsPreview = () => {
-  // const [visible, setVisible] = useState(true);
   const preliminaryResults = useSelector(selectPreviewResults);
   const previewStatus = useSelector(selectPreviewStatus);
+  const dispatch = useDispatch();
   const resultsContainer = useRef();
 
-  // document.addEventListener('click', (e) => {
-  //   if (e.target !== resultsContainer.current) {
-  //     setVisible(false);
-  //   }
-  // });
+  document.addEventListener('click', (e) => {
+    dispatch(emptyPreviewResults());
+  });
 
   const renderedPreviewResults = () => {
     if (previewStatus === 'succeeded') {
@@ -22,8 +24,7 @@ const GameResultsPreview = () => {
           {preliminaryResults.map((gameResult, i) => {
             return (
               <li key={gameResult.id} className="preliminary-game-result">
-                {/* link to /games/:gameTitle OR id */}
-                <Link to="/">
+                <Link to={`/games/${gameResult.slug}`}>
                   <div className="preliminary-game-result__image-container">
                     <img
                       className="preliminary-game-result__image"
@@ -56,19 +57,13 @@ const GameResultsPreview = () => {
           <span className="error__message">Could not find the game.</span>
         </div>
       );
-
-    // TODO:
   };
 
-  // console.log(visible);
-
-  // if (visible) {
   return (
     <section className="preliminary-game-results" ref={resultsContainer}>
       {renderedPreviewResults()}
     </section>
   );
-  // } else return null;
 };
 
 export default GameResultsPreview;

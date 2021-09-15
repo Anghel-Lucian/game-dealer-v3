@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router';
 
 import {
   fetchGames,
@@ -14,6 +14,7 @@ const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [timerId, setTimerId] = useState(null);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const filterCharacters = function (string) {
     let modified = [];
@@ -51,6 +52,7 @@ const SearchBar = () => {
     if (!query) return;
 
     clearInterval(timerId);
+    history.push(`/search/${query}`);
     dispatch(changeFullResultsOnly(true));
     dispatch(changeStatusToIdle());
     dispatch(fetchGames(filterCharacters(query)));
