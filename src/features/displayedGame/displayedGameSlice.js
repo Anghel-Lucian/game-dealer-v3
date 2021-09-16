@@ -9,18 +9,10 @@ const initialState = {
 export const fetchGameDetail = createAsyncThunk(
   'displayedGame/fetchGameDetail',
   async (gameSlug) => {
-    const response = await rawg.get(`/games/${gameSlug}`);
+    const gameData = await rawg.get(`/games/${gameSlug}`);
+    const gameScreenshots = await rawg.get(`/games/${gameSlug}/screenshots`);
 
-    return response.data;
-  }
-);
-
-export const fetchGameScreenshots = createAsyncThunk(
-  'displayedGame/fetchGameScreenshots',
-  async (gameSlug) => {
-    const response = await rawg.get(`/games/${gameSlug}/screenshots`);
-
-    return response.data;
+    return { ...gameData.data, ...gameScreenshots.data };
   }
 );
 
@@ -35,7 +27,10 @@ const displayedGameSlice = createSlice({
   extraReducers: {
     [fetchGameDetail.fulfilled]: (state, action) => {
       state.game.backgroundImage = action.payload.background_image;
+      state.game.screenshots = action.payload.results;
       state.game.description = action.payload.description;
+      state.game.shortDescription =
+        action.payload.description.substring(0, 200) + '...';
       state.game.developers = action.payload.developers
         .map((developer) => developer.name)
         .join(', ');
