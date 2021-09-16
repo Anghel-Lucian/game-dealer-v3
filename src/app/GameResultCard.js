@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import Button from './Button';
+
 const GameResultCard = ({ gameData }) => {
   return (
     <div className="result-card">
@@ -15,12 +17,8 @@ const GameResultCard = ({ gameData }) => {
         <div className="result-card__title">{gameData.name}</div>
       </Link>
       <div className="result-card__options">
-        <button className="btn btn__add-to-library">
-          Add to library <i className="fas fa-layer-group" />
-        </button>
-        <button className="btn btn__add-to-wishlist">
-          Add to wishlist <i className="fas fa-gift" />
-        </button>
+        <Button addTo="library" gameSlug={gameData.slug} type="small" />
+        <Button addTo="wishlist" gameSlug={gameData.slug} type="small" />
       </div>
       <div className="result-card__detail">
         {gameData.released ? (
