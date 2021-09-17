@@ -28,9 +28,14 @@ const displayedGameSlice = createSlice({
     [fetchGameDetail.fulfilled]: (state, action) => {
       state.game.backgroundImage = action.payload.background_image;
       state.game.screenshots = action.payload.results;
-      state.game.description = action.payload.description;
-      state.game.shortDescription =
-        action.payload.description.substring(0, 200) + '...';
+      // state.game.description =
+      //   action.payload.description.length > 200
+      //     ? action.payload.description
+      //     : action.payload.description_raw;
+      // state.game.shortDescription =
+      //   action.payload.description.length > 200
+      //     ? action.payload.description_raw.substring(0, 200) + '...'
+      //     : null;
       state.game.developers = action.payload.developers
         .map((developer) => developer.name)
         .join(', ');

@@ -7,26 +7,29 @@ import {
   selectGameDetailStatus,
 } from './displayedGameSlice';
 import Button from '../../app/Button';
+import ImageSlider from '../../app/ImageSlider';
 
 const DisplayedGame = ({ match }) => {
   const { gameSlug } = match.params;
   const [showFullDescription, setShowFullDescription] = useState(false);
   const dispatch = useDispatch();
   const game = useSelector(selectGame);
+  // TODO: cover case of loading and failed
   const gameDetailStatus = useSelector(selectGameDetailStatus);
 
   useEffect(() => {
     dispatch(fetchGameDetail(gameSlug));
   }, [gameSlug]);
 
-  const renderedImages = () => {
-    return game.screenshots?.map((img) => {
+  const renderDetailCells = (field, string) => {
+    if (string) {
       return (
-        <li>
-          <img src={img.image} />
-        </li>
+        <div className="detail__grid__cell">
+          <h3 className="cell__title">{field}</h3>
+          {string}
+        </div>
       );
-    });
+    } else return null;
   };
 
   return (
@@ -60,36 +63,38 @@ const DisplayedGame = ({ match }) => {
       </div>
       <div className="game-container__middle">
         <div className="game-container__detail">
-          <div
-            className="detail__description"
-            dangerouslySetInnerHTML={{
-              __html: showFullDescription
-                ? game.description
-                : game.shortDescription,
-            }}
-          ></div>
-          <button
-            onClick={() => setShowFullDescription(!showFullDescription)}
-            className="btn__toggle-description"
-          >
-            Toggle desc
-          </button>
+          {game.shortDescription ? (
+            <React.Fragment>
+              <div
+                className="detail__description"
+                dangerouslySetInnerHTML={{
+                  __html: showFullDescription
+                    ? game.description
+                    : game.shortDescription,
+                }}
+              ></div>
+              <button
+                onClick={() => setShowFullDescription(!showFullDescription)}
+                className="btn__toggle-description"
+              >
+                {showFullDescription ? 'Read less' : 'Read more'}
+              </button>
+            </React.Fragment>
+          ) : (
+            <div
+              className="detail__description"
+              dangerouslySetInnerHTML={{
+                __html: game.description,
+              }}
+            ></div>
+          )}
           <div className="detail__grid">
-            <div className="detail__grid__cell">
-              <h3 className="cell__title">Developers:</h3>
-              {game.developers}
-            </div>
-            <div className="detail__grid__cell">
-              <h3 className="cell__title">Publishers:</h3>
-              {game.publishers}
-            </div>
-            <div className="detail__grid__cell">
-              <h3 className="cell__title">Genres:</h3>
-              {game.genres}
-            </div>
+            {renderDetailCells('Developers:', game.developers)}
+            {renderDetailCells('Publishers:', game.publishers)}
+            {renderDetailCells('Genres:', game.genres)}
           </div>
         </div>
-        <ul className="game-container__images">{renderedImages()}</ul>
+        <ImageSlider imagesData={game.screenshots} />
       </div>
     </section>
   );
