@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import cheapshark from '../../apis/cheapshark';
 import rawg from '../../apis/rawg';
 
 const initialState = {
@@ -107,8 +106,6 @@ export const {
 } = gamesSearchSlice.actions;
 
 export default gamesSearchSlice.reducer;
-
-export const selectGamesResults = (state) => state.gamesSearch.results;
 
 export const selectPreviewResults = (state) => state.gamesSearch.previewResults;
 

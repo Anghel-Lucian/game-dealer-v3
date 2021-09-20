@@ -1,21 +1,46 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-const ImageSlider = ({ imagesData }) => {
-  console.log(imagesData);
-  const [currentImageSrc, setCurrentImageSrc] = useState('');
+import {
+  fetchGameScreenshots,
+  selectGameScreenshots,
+} from '../features/displayedGame/displayedGameSlice';
+import ImageComponent from './ImageComponent';
 
-  useEffect(
-    () => (imagesData ? setCurrentImageSrc(imagesData[0].image) : ''),
-    [imagesData]
-  );
+const ImageSlider = ({ gameSlug }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchGameScreenshots(gameSlug));
+  }, [gameSlug]);
+
+  const images = useSelector(selectGameScreenshots);
 
   const renderHoverableElements = () => {
-    return imagesData?.map((imageData) => {
+    return images?.map((_, i) => {
       return (
         <li
+          key={i}
           className="slider-container__hoverable-element"
-          onMouseOver={() => setCurrentImageSrc(imageData.image)}
+          onMouseOver={() => setCurrentImageIndex(i)}
         ></li>
+      );
+    });
+  };
+
+  const renderImages = () => {
+    return images?.map((imageData, i) => {
+      return (
+        <img
+          key={imageData.image}
+          src={imageData.image}
+          className={`slider-container__displayed-image ${
+            i === currentImageIndex
+              ? 'slider-container__displayed-image--visible'
+              : ''
+          }`}
+        />
       );
     });
   };
@@ -25,10 +50,7 @@ const ImageSlider = ({ imagesData }) => {
       <ul className="slider-container__hoverable-elements">
         {renderHoverableElements()}
       </ul>
-      <img
-        src={currentImageSrc}
-        className="slider-container__displayed-image"
-      />
+      {renderImages()}
     </div>
   );
 };

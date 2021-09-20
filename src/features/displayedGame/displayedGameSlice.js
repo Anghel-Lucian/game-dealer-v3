@@ -3,6 +3,7 @@ import rawg from '../../apis/rawg';
 
 const initialState = {
   game: {},
+  gameScreenshots: [],
   gameDetailStatus: 'idle',
 };
 
@@ -10,24 +11,28 @@ export const fetchGameDetail = createAsyncThunk(
   'displayedGame/fetchGameDetail',
   async (gameSlug) => {
     const gameData = await rawg.get(`/games/${gameSlug}`);
+
+    return gameData.data;
+  }
+);
+
+export const fetchGameScreenshots = createAsyncThunk(
+  'displayedGame/fetchGameScreenshots',
+  async (gameSlug) => {
     const gameScreenshots = await rawg.get(`/games/${gameSlug}/screenshots`);
 
-    return { ...gameData.data, ...gameScreenshots.data };
+    return gameScreenshots.data.results;
   }
 );
 
 const displayedGameSlice = createSlice({
   name: 'displayedGame',
   initialState,
-  reducers: {
-    testReducer(state, action) {
-      console.log('delete me');
-    },
-  },
+  reducers: {},
   extraReducers: {
     [fetchGameDetail.fulfilled]: (state, action) => {
+      console.log(action.payload);
       state.game.backgroundImage = action.payload.background_image;
-      state.game.screenshots = action.payload.results;
       // state.game.description =
       //   action.payload.description.length > 200
       //     ? action.payload.description
@@ -58,10 +63,17 @@ const displayedGameSlice = createSlice({
       state.status = 'succeeded';
     },
     [fetchGameDetail.pending]: (state, action) => {
+      state.game = {};
       state.status = 'loading';
     },
     [fetchGameDetail.rejected]: (state, action) => {
       state.status = 'failed';
+    },
+    [fetchGameScreenshots.fulfilled]: (state, action) => {
+      state.gameScreenshots = action.payload;
+    },
+    [fetchGameScreenshots.pending]: (state, action) => {
+      state.gameScreenshots = action.payload;
     },
   },
 });
@@ -74,3 +86,6 @@ export const selectGame = (state) => state.displayedGame.game;
 
 export const selectGameDetailStatus = (state) =>
   state.displayedGame.gameDetailStatus;
+
+export const selectGameScreenshots = (state) =>
+  state.displayedGame.gameScreenshots;
