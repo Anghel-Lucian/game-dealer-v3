@@ -13,9 +13,9 @@ const GameResultsPreview = () => {
   const dispatch = useDispatch();
   const resultsContainer = useRef();
 
-  document.addEventListener('click', (e) => {
-    dispatch(emptyPreviewResults());
-  });
+  // document.addEventListener('click', (e) => {
+  //   dispatch(emptyPreviewResults());
+  // });
 
   const renderedPreviewResults = () => {
     if (previewStatus === 'succeeded') {

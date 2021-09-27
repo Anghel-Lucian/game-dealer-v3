@@ -1,11 +1,19 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { selectResults, selectStatus } from './gamesSearchSlice';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { fetchGames, selectResults, selectStatus } from './gamesSearchSlice';
+import { filterCharacters } from '../../app/helpers';
 import GameResultCard from '../../app/GameResultCard';
 
-const GamesResultsList = () => {
+const GamesResultsList = ({ match }) => {
+  const { query } = match.params;
   const shownResults = useSelector(selectResults);
   const status = useSelector(selectStatus);
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(fetchGames(filterCharacters(query)));
+  // }, [query]);
 
   const renderedGamesResults = () => {
     if (status === 'succeeded') {

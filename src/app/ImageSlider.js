@@ -5,7 +5,7 @@ import {
   fetchGameScreenshots,
   selectGameScreenshots,
 } from '../features/displayedGame/displayedGameSlice';
-import ImageComponent from './ImageComponent';
+// import ImageComponent from './ImageComponent';
 
 const ImageSlider = ({ gameSlug }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

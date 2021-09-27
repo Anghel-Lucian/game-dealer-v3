@@ -9,6 +9,7 @@ import {
   changePreviewStatusToIdle,
   changeFullResultsOnly,
 } from './gamesSearchSlice';
+import { filterCharacters } from '../../app/helpers';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -16,35 +17,33 @@ const SearchBar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const filterCharacters = function (string) {
-    let modified = [];
-    string.split(' ').forEach((stringEl) => {
-      modified.push(
-        stringEl
-          .split('')
-          .filter((char) => char.match(/^[a-zA-Z0-9]+$/))
-          .join('')
-      );
-    });
+  // useEffect(() => {
+  //   if (!query) {
+  //     dispatch(emptyPreviewResults());
+  //     dispatch(changePreviewStatusToIdle());
+  //     return;
+  //   }
 
-    return modified.join('-');
-  };
+  // const timerId = setTimeout(() => {
+  //   history.push(`/search/${query}`);
+  // });
+  // }, []);
 
-  useEffect(() => {
-    if (!query) {
-      dispatch(emptyPreviewResults());
-      dispatch(changePreviewStatusToIdle());
-      return;
-    }
-    const timerId = setTimeout(() => {
-      dispatch(changeFullResultsOnly(false));
-      dispatch(fetchGames(filterCharacters(query)));
-    }, 750);
+  // useEffect(() => {
+  //   if (!query) {
+  //     dispatch(emptyPreviewResults());
+  //     dispatch(changePreviewStatusToIdle());
+  //     return;
+  //   }
+  //   const timerId = setTimeout(() => {
+  //     dispatch(changeFullResultsOnly(false));
+  //     dispatch(fetchGames(filterCharacters(query)));
+  //   }, 750);
 
-    setTimerId(timerId);
+  //   setTimerId(timerId);
 
-    return () => clearInterval(timerId);
-  }, [query]);
+  //   return () => clearInterval(timerId);
+  // }, [query]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -56,7 +55,7 @@ const SearchBar = () => {
     dispatch(changeFullResultsOnly(true));
     dispatch(changeStatusToIdle());
     dispatch(fetchGames(filterCharacters(query)));
-    dispatch(emptyPreviewResults());
+    // dispatch(emptyPreviewResults());
   };
 
   return (

@@ -63,7 +63,6 @@ const displayedGameSlice = createSlice({
       state.status = 'succeeded';
     },
     [fetchGameDetail.pending]: (state, action) => {
-      state.game = {};
       state.status = 'loading';
     },
     [fetchGameDetail.rejected]: (state, action) => {
@@ -77,8 +76,6 @@ const displayedGameSlice = createSlice({
     },
   },
 });
-
-export const { testReducer } = displayedGameSlice.actions;
 
 export default displayedGameSlice.reducer;
 
