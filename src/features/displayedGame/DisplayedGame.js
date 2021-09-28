@@ -31,6 +31,10 @@ const DisplayedGame = ({ match }) => {
     } else return null;
   };
 
+  // if(gameDetailStatus === 'loading') {
+
+  // }
+
   return (
     <section className="game-container">
       <div className="game-container__top">
@@ -93,8 +97,7 @@ const DisplayedGame = ({ match }) => {
             {renderDetailCells('Genres:', game.genres)}
           </div>
         </div>
-        {/* Move data selection to component itself, use selectors */}
-        <ImageSlider gameSlug={game.slug} />
+        <ImageSlider />
       </div>
     </section>
   );

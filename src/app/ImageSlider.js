@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import {
-  fetchGameScreenshots,
-  selectGameScreenshots,
-} from '../features/displayedGame/displayedGameSlice';
-// import ImageComponent from './ImageComponent';
+import { selectGameScreenshots } from '../features/displayedGame/displayedGameSlice';
 
-const ImageSlider = ({ gameSlug }) => {
+const ImageSlider = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchGameScreenshots(gameSlug));
-  }, [gameSlug]);
-
   const images = useSelector(selectGameScreenshots);
 
   const renderHoverableElements = () => {

@@ -11,6 +11,7 @@ const GamesResultsList = ({ match }) => {
   const status = useSelector(selectStatus);
   const dispatch = useDispatch();
 
+  // TODO: fetch the games from here, on route change
   // useEffect(() => {
   //   dispatch(fetchGames(filterCharacters(query)));
   // }, [query]);
