@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import {
   fetchGames,
   emptyPreviewResults,
-  changeStatusToIdle,
+  changeFetchingStatusToIdle,
   changePreviewStatusToIdle,
   changeFullResultsOnly,
 } from './gamesSearchSlice';
@@ -53,7 +53,7 @@ const SearchBar = () => {
     clearInterval(timerId);
     history.push(`/search/${query}`);
     dispatch(changeFullResultsOnly(true));
-    dispatch(changeStatusToIdle());
+    dispatch(changeFetchingStatusToIdle());
     dispatch(fetchGames(filterCharacters(query)));
     // dispatch(emptyPreviewResults());
   };

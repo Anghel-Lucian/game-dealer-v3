@@ -1,11 +1,13 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import {
   selectPreviewResults,
   selectPreviewStatus,
   emptyPreviewResults,
 } from './gamesSearchSlice';
-import { Link } from 'react-router-dom';
+import StatusDisplay from '../../app/StatusDisplay';
 
 const GameResultsPreview = () => {
   const preliminaryResults = useSelector(selectPreviewResults);
@@ -43,20 +45,7 @@ const GameResultsPreview = () => {
       );
     }
 
-    if (previewStatus === 'loading')
-      return (
-        <div className="loading-spinner-container">
-          <div className="loading-spinner"></div>
-        </div>
-      );
-
-    if (previewStatus === 'failed')
-      return (
-        <div className="error">
-          <i className="fas fa-exclamation-triangle error__icon" />
-          <span className="error__message">Could not find the game.</span>
-        </div>
-      );
+    return <StatusDisplay status={previewStatus} />;
   };
 
   return (

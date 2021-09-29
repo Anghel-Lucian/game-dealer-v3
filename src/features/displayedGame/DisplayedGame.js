@@ -8,6 +8,7 @@ import {
 } from './displayedGameSlice';
 import Button from '../../app/Button';
 import ImageSlider from '../../app/ImageSlider';
+import StatusDisplay from '../../app/StatusDisplay';
 
 const DisplayedGame = ({ match }) => {
   const { gameSlug } = match.params;
@@ -31,76 +32,80 @@ const DisplayedGame = ({ match }) => {
     } else return null;
   };
 
-  // if(gameDetailStatus === 'loading') {
-
-  // }
-
   return (
-    <section className="game-container">
-      <div className="game-container__top">
-        <div className="game-container__top__background">
-          <img
-            src={game.backgroundImage}
-            alt={`${gameSlug} background image`}
-            className="game-container__top__image"
-            onLoad={() => console.log('img finished loading')}
-          />
-        </div>
-        <div className="game-container__content">
-          <div className="game-container__meta">
-            {game.released ? (
-              <span className="meta__release-date">{game.released}</span>
-            ) : null}
-            {game.metacritic ? (
-              <span className="meta__metascore metascore" title="Metascore">
-                {game.metacritic}
-              </span>
-            ) : null}
-          </div>
-          <div className="game-container__title">{game.name}</div>
-          <div className="game-container__user-buttons">
-            <Button addTo="library" gameSlug={gameSlug} type="large" />
-            <Button addTo="wishlist" gameSlug={gameSlug} type="large" />
-          </div>
-        </div>
-      </div>
-      <div className="game-container__middle">
-        <div className="game-container__detail">
-          {game.shortDescription ? (
-            <React.Fragment>
-              <div
-                className="detail__description"
-                dangerouslySetInnerHTML={{
-                  __html: showFullDescription
-                    ? game.description
-                    : game.shortDescription,
-                }}
-              ></div>
-              <button
-                onClick={() => setShowFullDescription(!showFullDescription)}
-                className="btn__toggle-description"
-              >
-                {showFullDescription ? 'Read less' : 'Read more'}
-              </button>
-            </React.Fragment>
-          ) : (
-            <div
-              className="detail__description"
-              dangerouslySetInnerHTML={{
-                __html: game.description,
-              }}
-            ></div>
-          )}
-          <div className="detail__grid">
-            {renderDetailCells('Developers:', game.developers)}
-            {renderDetailCells('Publishers:', game.publishers)}
-            {renderDetailCells('Genres:', game.genres)}
-          </div>
-        </div>
-        <ImageSlider />
-      </div>
-    </section>
+    <StatusDisplay
+      status="loading"
+      additionalStyleClass="displayed-game"
+      errorMessage="Something went wrong when loading the game's page."
+    />
   );
+
+  // return (
+  //   <section className="game-container">
+  //     <div className="game-container__top">
+  //       <div className="game-container__top__background">
+  //         <img
+  //           src={game.backgroundImage}
+  //           alt={`${gameSlug} background image`}
+  //           className="game-container__top__image"
+  //           onLoad={() => console.log('img finished loading')}
+  //         />
+  //       </div>
+  //       <div className="game-container__content">
+  //         <div className="game-container__meta">
+  //           {game.released ? (
+  //             <span className="meta__release-date">{game.released}</span>
+  //           ) : null}
+  //           {game.metacritic ? (
+  //             <span className="meta__metascore metascore" title="Metascore">
+  //               {game.metacritic}
+  //             </span>
+  //           ) : null}
+  //         </div>
+  //         <div className="game-container__title">{game.name}</div>
+  //         <div className="game-container__user-buttons">
+  //           <Button addTo="library" gameSlug={gameSlug} type="large" />
+  //           <Button addTo="wishlist" gameSlug={gameSlug} type="large" />
+  //         </div>
+  //       </div>
+  //     </div>
+  //     <div className="game-container__middle">
+  //       <div className="game-container__detail">
+  //         {game.shortDescription ? (
+  //           <React.Fragment>
+  //             <div
+  //               className="detail__description"
+  //               dangerouslySetInnerHTML={{
+  //                 __html: showFullDescription
+  //                   ? game.description
+  //                   : game.shortDescription,
+  //               }}
+  //             ></div>
+  //             <button
+  //               onClick={() => setShowFullDescription(!showFullDescription)}
+  //               className="btn__toggle-description"
+  //             >
+  //               {showFullDescription ? 'Read less' : 'Read more'}
+  //             </button>
+  //           </React.Fragment>
+  //         ) : (
+  //           <div
+  //             className="detail__description"
+  //             dangerouslySetInnerHTML={{
+  //               __html: game.description,
+  //             }}
+  //           ></div>
+  //         )}
+  //         <div className="detail__grid">
+  //           {renderDetailCells('Developers:', game.developers)}
+  //           {renderDetailCells('Publishers:', game.publishers)}
+  //           {renderDetailCells('Genres:', game.genres)}
+  //         </div>
+  //       </div>
+  //       <ImageSlider />
+  //     </div>
+  //   </section>
+  // );
 };
 
 export default DisplayedGame;

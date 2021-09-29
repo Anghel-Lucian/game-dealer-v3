@@ -226,6 +226,12 @@ body {
   width: 70px;
 }
 
+.loading-spinner__displayed-game::before {
+  top: 25%;
+  height: 70px;
+  width: 70px;
+}
+
 /* ERROR MESSAGE */
 .error {
   width: 100%;
@@ -240,6 +246,10 @@ body {
 .error__results-list {
   position: relative;
   left: 100%;
+}
+
+.error__displayed-game {
+  position: relative;
 }
 
 .error__icon {
