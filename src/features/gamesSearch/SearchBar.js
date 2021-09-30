@@ -50,11 +50,11 @@ const SearchBar = () => {
 
     if (!query) return;
 
-    clearInterval(timerId);
+    // clearInterval(timerId);
     history.push(`/search/${query}`);
-    dispatch(changeFullResultsOnly(true));
-    dispatch(changeFetchingStatusToIdle());
-    dispatch(fetchGames(filterCharacters(query)));
+    // dispatch(changeFullResultsOnly(true));
+    // dispatch(changeFetchingStatusToIdle());
+    // dispatch(fetchGames(filterCharacters(query)));
     // dispatch(emptyPreviewResults());
   };
 

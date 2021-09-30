@@ -12,18 +12,17 @@ import StatusDisplay from '../../app/StatusDisplay';
 
 const GamesResultsList = ({ match }) => {
   const { query } = match.params;
-  const shownResults = useSelector(selectResults);
+  const results = useSelector(selectResults);
   const fetchingStatus = useSelector(selectFetchingStatus);
   const dispatch = useDispatch();
 
-  // TODO: fetch the games from here, on route change
-  // useEffect(() => {
-  //   dispatch(fetchGames(filterCharacters(query)));
-  // }, [query]);
+  useEffect(() => {
+    dispatch(fetchGames(filterCharacters(query)));
+  }, [query]);
 
   const renderedGamesResults = () => {
     if (fetchingStatus === 'succeeded') {
-      return shownResults.map((gameData) => {
+      return results.map((gameData) => {
         return <GameResultCard gameData={gameData} key={gameData.id} />;
       });
     }
