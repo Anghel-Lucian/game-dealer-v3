@@ -227,7 +227,8 @@ body {
 }
 
 .loading-spinner__displayed-game::before {
-  top: 25%;
+  position: absolute;
+  top: 50%;
   height: 70px;
   width: 70px;
 }
@@ -250,6 +251,7 @@ body {
 
 .error__displayed-game {
   position: relative;
+  top: 100%;
 }
 
 .error__icon {

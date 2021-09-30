@@ -4,7 +4,7 @@ import rawg from '../../apis/rawg';
 const initialState = {
   game: {},
   gameScreenshots: [],
-  gameDetailStatus: 'idle',
+  fetchingGameDetailStatus: 'idle',
 };
 
 export const fetchGameDetail = createAsyncThunk(
@@ -52,13 +52,13 @@ const displayedGameSlice = createSlice({
         : null;
       state.gameScreenshots = action.payload.results;
 
-      state.status = 'succeeded';
+      state.fetchingGameDetailStatus = 'succeeded';
     },
     [fetchGameDetail.pending]: (state, action) => {
-      state.status = 'loading';
+      state.fetchingGameDetailStatus = 'loading';
     },
     [fetchGameDetail.rejected]: (state, action) => {
-      state.status = 'failed';
+      state.fetchingGameDetailStatus = 'failed';
     },
   },
 });
@@ -67,8 +67,8 @@ export default displayedGameSlice.reducer;
 
 export const selectGame = (state) => state.displayedGame.game;
 
-export const selectGameDetailStatus = (state) =>
-  state.displayedGame.gameDetailStatus;
+export const selectFetchingGameDetailStatus = (state) =>
+  state.displayedGame.fetchingGameDetailStatus;
 
 export const selectGameScreenshots = (state) =>
   state.displayedGame.gameScreenshots;
