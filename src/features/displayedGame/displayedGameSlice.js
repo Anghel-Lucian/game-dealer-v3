@@ -4,24 +4,16 @@ import rawg from '../../apis/rawg';
 const initialState = {
   game: {},
   gameScreenshots: [],
-  gameDetailStatus: 'idle',
+  fetchingGameDetailStatus: 'idle',
 };
 
 export const fetchGameDetail = createAsyncThunk(
   'displayedGame/fetchGameDetail',
   async (gameSlug) => {
     const gameData = await rawg.get(`/games/${gameSlug}`);
-
-    return gameData.data;
-  }
-);
-
-export const fetchGameScreenshots = createAsyncThunk(
-  'displayedGame/fetchGameScreenshots',
-  async (gameSlug) => {
     const gameScreenshots = await rawg.get(`/games/${gameSlug}/screenshots`);
 
-    return gameScreenshots.data.results;
+    return { ...gameData.data, ...gameScreenshots.data };
   }
 );
 
@@ -31,16 +23,15 @@ const displayedGameSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchGameDetail.fulfilled]: (state, action) => {
-      console.log(action.payload);
       state.game.backgroundImage = action.payload.background_image;
-      // state.game.description =
-      //   action.payload.description.length > 200
-      //     ? action.payload.description
-      //     : action.payload.description_raw;
-      // state.game.shortDescription =
-      //   action.payload.description.length > 200
-      //     ? action.payload.description_raw.substring(0, 200) + '...'
-      //     : null;
+      state.game.description =
+        action.payload.description.length > 200
+          ? action.payload.description
+          : action.payload.description_raw;
+      state.game.shortDescription =
+        action.payload.description.length > 200
+          ? action.payload.description_raw.substring(0, 200) + '...'
+          : null;
       state.game.developers = action.payload.developers
         .map((developer) => developer.name)
         .join(', ');
@@ -59,33 +50,25 @@ const displayedGameSlice = createSlice({
             action.payload.released.split('-')[1]
           }.${action.payload.released.split('-')[0]}`
         : null;
+      state.gameScreenshots = action.payload.results;
 
-      state.status = 'succeeded';
+      state.fetchingGameDetailStatus = 'succeeded';
     },
     [fetchGameDetail.pending]: (state, action) => {
-      state.game = {};
-      state.status = 'loading';
+      state.fetchingGameDetailStatus = 'loading';
     },
     [fetchGameDetail.rejected]: (state, action) => {
-      state.status = 'failed';
-    },
-    [fetchGameScreenshots.fulfilled]: (state, action) => {
-      state.gameScreenshots = action.payload;
-    },
-    [fetchGameScreenshots.pending]: (state, action) => {
-      state.gameScreenshots = action.payload;
+      state.fetchingGameDetailStatus = 'failed';
     },
   },
 });
-
-export const { testReducer } = displayedGameSlice.actions;
 
 export default displayedGameSlice.reducer;
 
 export const selectGame = (state) => state.displayedGame.game;
 
-export const selectGameDetailStatus = (state) =>
-  state.displayedGame.gameDetailStatus;
+export const selectFetchingGameDetailStatus = (state) =>
+  state.displayedGame.fetchingGameDetailStatus;
 
 export const selectGameScreenshots = (state) =>
   state.displayedGame.gameScreenshots;

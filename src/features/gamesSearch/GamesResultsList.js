@@ -1,35 +1,40 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { selectResults, selectStatus } from './gamesSearchSlice';
-import GameResultCard from '../../app/GameResultCard';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-const GamesResultsList = () => {
+import {
+  fetchGames,
+  selectResults,
+  selectFetchingStatus,
+} from './gamesSearchSlice';
+import { filterCharacters } from '../../app/helpers';
+import GameResultCard from '../../app/GameResultCard';
+import StatusDisplay from '../../app/StatusDisplay';
+
+const GamesResultsList = ({ match }) => {
+  const { query } = match.params;
   const shownResults = useSelector(selectResults);
-  const status = useSelector(selectStatus);
+  const fetchingStatus = useSelector(selectFetchingStatus);
+  const dispatch = useDispatch();
+
+  // TODO: fetch the games from here, on route change
+  // useEffect(() => {
+  //   dispatch(fetchGames(filterCharacters(query)));
+  // }, [query]);
 
   const renderedGamesResults = () => {
-    if (status === 'succeeded') {
+    if (fetchingStatus === 'succeeded') {
       return shownResults.map((gameData) => {
         return <GameResultCard gameData={gameData} key={gameData.id} />;
       });
     }
 
-    if (status === 'loading') {
-      return (
-        <div className="loading-spinner-container loading-spinner-container__results-list">
-          <div className="loading-spinner loading-spinner__results-list"></div>
-        </div>
-      );
-    }
-
-    if (status === 'failed') {
-      return (
-        <div className="error error__results-list">
-          <i className="fas fa-exclamation-triangle error__icon" />
-          <span className="error__message">Could not find the game.</span>
-        </div>
-      );
-    }
+    return (
+      <StatusDisplay
+        status={fetchingStatus}
+        additionalStyleClass="results-list"
+        errorMessage="Could not find the game."
+      />
+    );
   };
 
   return <div className="game-results-list">{renderedGamesResults()}</div>;

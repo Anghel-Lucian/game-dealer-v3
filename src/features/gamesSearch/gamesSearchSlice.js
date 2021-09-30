@@ -4,7 +4,7 @@ import rawg from '../../apis/rawg';
 const initialState = {
   results: [],
   previewResults: [],
-  status: 'idle',
+  fetchingStatus: 'idle',
   previewStatus: 'idle',
   fullResultsOnly: false,
 };
@@ -29,8 +29,8 @@ const gamesSearchSlice = createSlice({
     emptyPreviewResults(state, action) {
       state.previewResults = [];
     },
-    changeStatusToIdle(state, action) {
-      state.status = 'idle';
+    changeFetchingStatusToIdle(state, action) {
+      state.fetchingStatus = 'idle';
     },
     changePreviewStatusToIdle(state, action) {
       state.previewStatus = 'idle';
@@ -44,7 +44,7 @@ const gamesSearchSlice = createSlice({
       const results = action.payload;
 
       if (state.fullResultsOnly && results.length === 0) {
-        state.status = 'failed';
+        state.fetchingStatus = 'failed';
         return;
       }
       if (!state.fullResultsOnly && results.length === 0) {
@@ -69,7 +69,7 @@ const gamesSearchSlice = createSlice({
 
       if (state.fullResultsOnly) {
         state.results = parsedResults;
-        state.status = 'succeeded';
+        state.fetchingStatus = 'succeeded';
       }
 
       if (!state.fullResultsOnly) {
@@ -79,7 +79,7 @@ const gamesSearchSlice = createSlice({
     },
     [fetchGames.rejected]: (state, action) => {
       if (state.fullResultsOnly) {
-        state.status = 'failed';
+        state.fetchingStatus = 'failed';
       }
 
       if (!state.fullResultsOnly) {
@@ -88,7 +88,7 @@ const gamesSearchSlice = createSlice({
     },
     [fetchGames.pending]: (state, action) => {
       if (state.fullResultsOnly) {
-        state.status = 'loading';
+        state.fetchingStatus = 'loading';
       }
 
       if (!state.fullResultsOnly) {
@@ -100,7 +100,7 @@ const gamesSearchSlice = createSlice({
 
 export const {
   emptyPreviewResults,
-  changeStatusToIdle,
+  changeFetchingStatusToIdle,
   changePreviewStatusToIdle,
   changeFullResultsOnly,
 } = gamesSearchSlice.actions;
@@ -111,6 +111,6 @@ export const selectPreviewResults = (state) => state.gamesSearch.previewResults;
 
 export const selectResults = (state) => state.gamesSearch.results;
 
-export const selectStatus = (state) => state.gamesSearch.status;
+export const selectFetchingStatus = (state) => state.gamesSearch.fetchingStatus;
 
 export const selectPreviewStatus = (state) => state.gamesSearch.previewStatus;

@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
   fetchGameDetail,
   selectGame,
-  selectGameDetailStatus,
+  selectFetchingGameDetailStatus,
 } from './displayedGameSlice';
 import Button from '../../app/Button';
 import ImageSlider from '../../app/ImageSlider';
+import StatusDisplay from '../../app/StatusDisplay';
+import MoreLess from '../../app/MoreLess';
 
 const DisplayedGame = ({ match }) => {
   const { gameSlug } = match.params;
-  const [showFullDescription, setShowFullDescription] = useState(false);
   const dispatch = useDispatch();
   const game = useSelector(selectGame);
-  const gameDetailStatus = useSelector(selectGameDetailStatus);
+  const gameDetailStatus = useSelector(selectFetchingGameDetailStatus);
 
   useEffect(() => {
     dispatch(fetchGameDetail(gameSlug));
@@ -31,7 +32,7 @@ const DisplayedGame = ({ match }) => {
     } else return null;
   };
 
-  if (Object.keys(game).length !== 0) {
+  if (gameDetailStatus === 'succeeded' || gameDetailStatus === 'idle')
     return (
       <section className="game-container">
         <div className="game-container__top">
@@ -40,7 +41,6 @@ const DisplayedGame = ({ match }) => {
               src={game.backgroundImage}
               alt={`${gameSlug} background image`}
               className="game-container__top__image"
-              onLoad={() => console.log('img finished loading')}
             />
           </div>
           <div className="game-container__content">
@@ -63,43 +63,28 @@ const DisplayedGame = ({ match }) => {
         </div>
         <div className="game-container__middle">
           <div className="game-container__detail">
-            {game.shortDescription ? (
-              <React.Fragment>
-                <div
-                  className="detail__description"
-                  dangerouslySetInnerHTML={{
-                    __html: showFullDescription
-                      ? game.description
-                      : game.shortDescription,
-                  }}
-                ></div>
-                <button
-                  onClick={() => setShowFullDescription(!showFullDescription)}
-                  className="btn__toggle-description"
-                >
-                  {showFullDescription ? 'Read less' : 'Read more'}
-                </button>
-              </React.Fragment>
-            ) : (
-              <div
-                className="detail__description"
-                dangerouslySetInnerHTML={{
-                  __html: game.description,
-                }}
-              ></div>
-            )}
+            <MoreLess
+              shortDescription={game.shortDescription}
+              fullDescription={game.description}
+            />
             <div className="detail__grid">
               {renderDetailCells('Developers:', game.developers)}
               {renderDetailCells('Publishers:', game.publishers)}
               {renderDetailCells('Genres:', game.genres)}
             </div>
           </div>
-          {/* Move data selection to component itself, use selectors */}
-          <ImageSlider gameSlug={game.slug} />
+          <ImageSlider />
         </div>
       </section>
     );
-  } else return null;
+  else
+    return (
+      <StatusDisplay
+        status={gameDetailStatus}
+        additionalStyleClass="displayed-game"
+        errorMessage="Something went wrong when loading the game's page."
+      />
+    );
 };
 
 export default DisplayedGame;
