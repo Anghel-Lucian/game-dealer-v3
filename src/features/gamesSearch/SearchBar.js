@@ -1,33 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 
-import {
-  fetchGames,
-  emptyPreviewResults,
-  changeFetchingStatusToIdle,
-  changePreviewStatusToIdle,
-  changeFullResultsOnly,
-} from './gamesSearchSlice';
-import { filterCharacters } from '../../app/helpers';
+import GameResultsPreview from './GameResultsPreview';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
-  const [timerId, setTimerId] = useState(null);
-  const dispatch = useDispatch();
   const history = useHistory();
-
-  // useEffect(() => {
-  //   if (!query) {
-  //     dispatch(emptyPreviewResults());
-  //     dispatch(changePreviewStatusToIdle());
-  //     return;
-  //   }
-
-  // const timerId = setTimeout(() => {
-  //   history.push(`/search/${query}`);
-  // });
-  // }, []);
 
   // useEffect(() => {
   //   if (!query) {
@@ -50,12 +28,7 @@ const SearchBar = () => {
 
     if (!query) return;
 
-    // clearInterval(timerId);
     history.push(`/search/${query}`);
-    // dispatch(changeFullResultsOnly(true));
-    // dispatch(changeFetchingStatusToIdle());
-    // dispatch(fetchGames(filterCharacters(query)));
-    // dispatch(emptyPreviewResults());
   };
 
   return (
@@ -69,6 +42,8 @@ const SearchBar = () => {
           onChange={(e) => setQuery(e.target.value)}
         />
       </form>
+
+      {/* <GameResultsPreview query={query} /> */}
     </div>
   );
 };

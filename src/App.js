@@ -21,7 +21,7 @@ const App = () => {
             render={() => (
               <div className="main-view__top-section">
                 <SearchBar />
-                <GameResultsPreview />
+                {/* <GameResultsPreview /> */}
               </div>
             )}
           />

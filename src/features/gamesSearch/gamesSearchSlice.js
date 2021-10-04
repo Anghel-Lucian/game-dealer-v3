@@ -6,7 +6,6 @@ const initialState = {
   previewResults: [],
   fetchingStatus: 'idle',
   previewStatus: 'idle',
-  fullResultsOnly: false,
 };
 
 export const fetchGames = createAsyncThunk(
@@ -35,20 +34,13 @@ const gamesSearchSlice = createSlice({
     changePreviewStatusToIdle(state, action) {
       state.previewStatus = 'idle';
     },
-    changeFullResultsOnly(state, action) {
-      state.fullResultsOnly = action.payload;
-    },
   },
   extraReducers: {
     [fetchGames.fulfilled]: (state, action) => {
       const results = action.payload;
 
-      if (state.fullResultsOnly && results.length === 0) {
+      if (results.length === 0) {
         state.fetchingStatus = 'failed';
-        return;
-      }
-      if (!state.fullResultsOnly && results.length === 0) {
-        state.previewStatus = 'failed';
         return;
       }
 
@@ -67,33 +59,14 @@ const gamesSearchSlice = createSlice({
         };
       });
 
-      if (state.fullResultsOnly) {
-        state.results = parsedResults;
-        state.fetchingStatus = 'succeeded';
-      }
-
-      if (!state.fullResultsOnly) {
-        state.previewResults = parsedResults.slice(0, 7);
-        state.previewStatus = 'succeeded';
-      }
+      state.results = parsedResults;
+      state.fetchingStatus = 'succeeded';
     },
     [fetchGames.rejected]: (state, action) => {
-      if (state.fullResultsOnly) {
-        state.fetchingStatus = 'failed';
-      }
-
-      if (!state.fullResultsOnly) {
-        state.previewStatus = 'failed';
-      }
+      state.fetchingStatus = 'failed';
     },
     [fetchGames.pending]: (state, action) => {
-      if (state.fullResultsOnly) {
-        state.fetchingStatus = 'loading';
-      }
-
-      if (!state.fullResultsOnly) {
-        state.previewStatus = 'loading';
-      }
+      state.fetchingStatus = 'loading';
     },
   },
 });
@@ -102,7 +75,6 @@ export const {
   emptyPreviewResults,
   changeFetchingStatusToIdle,
   changePreviewStatusToIdle,
-  changeFullResultsOnly,
 } = gamesSearchSlice.actions;
 
 export default gamesSearchSlice.reducer;
