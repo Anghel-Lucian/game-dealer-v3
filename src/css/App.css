@@ -12,6 +12,8 @@
   --color-medium-light: #dddddd;
   --color-error: #eb4808;
   --color-metacritic: #36e61f;
+  --color-confirmed: #017c0b;
+  --color-delete: #bb0600;
 
   --animation-speed: 0.2s;
   --animation-speed-loading: 1.5s;
@@ -447,6 +449,7 @@ body {
 
 .btn-add__library:hover {
   background-color: var(--color-medium-light);
+  border-color: var(--color-medium-light);
 }
 
 .btn-add__wishlist {
@@ -464,6 +467,23 @@ body {
   padding: 5px 15px;
   font-size: 1rem;
   font-weight: 400;
+  width: 140px;
+}
+
+.btn-add__small {
+  width: 130px;
+}
+
+.btn-added__library {
+  background-color: var(--color-confirmed);
+  color: var(--color-light);
+  border: 1px solid var(--color-confirmed);
+  transition: all var(--animation-speed);
+}
+
+.btn-added__library:hover {
+  background-color: var(--color-delete);
+  border-color: var(--color-delete);
 }
 
 /* game container middle */

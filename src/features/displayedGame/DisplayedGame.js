@@ -56,8 +56,16 @@ const DisplayedGame = ({ match }) => {
             </div>
             <div className="game-container__title">{game.name}</div>
             <div className="game-container__user-buttons">
-              <Button addTo="library" gameSlug={gameSlug} type="large" />
-              <Button addTo="wishlist" gameSlug={gameSlug} type="large" />
+              <Button
+                associatedSlice="library"
+                gameSlug={gameSlug}
+                type="large"
+              />
+              <Button
+                associatedSlice="wishlist"
+                gameSlug={gameSlug}
+                type="large"
+              />
             </div>
           </div>
         </div>
