@@ -9,6 +9,7 @@ import SearchBar from './features/gamesSearch/SearchBar';
 import GamesResultsList from './features/gamesSearch/GamesResultsList';
 import GameResultsPreview from './features/gamesSearch/GameResultsPreview';
 import DisplayedGame from './features/displayedGame/DisplayedGame';
+import LibraryList from './features/library/LibraryList';
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
           <Switch>
             <Route path="/search/:query" exact component={GamesResultsList} />
             <Route path="/games/:gameSlug" exact component={DisplayedGame} />
+            <Route path="/library" exact component={LibraryList} />
           </Switch>
         </div>
       </div>

@@ -7,13 +7,13 @@ import {
   selectLibraryGames,
 } from '../features/library/librarySlice';
 
-const Button = ({ associatedSlice, gameSlug, type }) => {
+const Button = ({ associatedSlice, gameData, type }) => {
   const libraryGames = useSelector(selectLibraryGames);
   const dispatch = useDispatch();
 
   const onClickAddGame = () => {
     if (associatedSlice === 'library') {
-      dispatch(addGameToLibrary(gameSlug));
+      dispatch(addGameToLibrary(gameData));
     }
 
     // if (associatedSlice === 'wishlist') {
@@ -23,7 +23,7 @@ const Button = ({ associatedSlice, gameSlug, type }) => {
 
   const onClickRemoveGame = () => {
     if (associatedSlice === 'library') {
-      dispatch(removeGameFromLibrary(gameSlug));
+      dispatch(removeGameFromLibrary(gameData));
     }
 
     // if (associatedSlice === 'wishlist') {
@@ -32,7 +32,11 @@ const Button = ({ associatedSlice, gameSlug, type }) => {
   };
 
   const renderedButton = () => {
-    if (libraryGames.includes(gameSlug) && associatedSlice === 'library') {
+    // need another way to check if libraryGames includes gameData since it is now an object with a different reference
+    if (
+      libraryGames.find((game) => game.slug === gameData.slug) &&
+      associatedSlice === 'library'
+    ) {
       return (
         <button
           onClick={onClickRemoveGame}

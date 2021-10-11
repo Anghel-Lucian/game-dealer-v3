@@ -19,15 +19,15 @@ const librarySlice = createSlice({
       //   ...state[action.payload.category],
       //   action.payload.game,
       // ]; // or something like that
-      const addedGameSlug = action.payload;
+      const addedGame = action.payload;
 
-      state.libraryGames = [...state.libraryGames, addedGameSlug];
+      state.libraryGames = [...state.libraryGames, addedGame];
     },
     removeGameFromLibrary(state, action) {
-      const removedGameSlug = action.payload;
+      const removedGameSlug = action.payload.slug;
 
       state.libraryGames = state.libraryGames.filter(
-        (slug) => slug !== removedGameSlug
+        (game) => game.slug !== removedGameSlug
       );
     },
   },

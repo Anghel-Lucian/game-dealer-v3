@@ -17,16 +17,8 @@ const GameResultCard = ({ gameData }) => {
         <div className="result-card__title">{gameData.name}</div>
       </Link>
       <div className="result-card__options">
-        <Button
-          associatedSlice="library"
-          gameSlug={gameData.slug}
-          type="small"
-        />
-        <Button
-          associatedSlice="wishlist"
-          gameSlug={gameData.slug}
-          type="small"
-        />
+        <Button associatedSlice="library" gameData={gameData} type="small" />
+        <Button associatedSlice="wishlist" gameData={gameData} type="small" />
       </div>
       <div className="result-card__detail">
         {gameData.released ? (

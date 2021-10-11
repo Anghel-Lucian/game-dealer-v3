@@ -6,10 +6,10 @@ import {
   selectGame,
   selectFetchingGameDetailStatus,
 } from './displayedGameSlice';
-import Button from '../../app/Button';
-import ImageSlider from '../../app/ImageSlider';
-import StatusDisplay from '../../app/StatusDisplay';
-import MoreLess from '../../app/MoreLess';
+import Button from '../../components/Button';
+import ImageSlider from '../../components/ImageSlider';
+import StatusDisplay from '../../components/StatusDisplay';
+import MoreLess from '../../components/MoreLess';
 
 const DisplayedGame = ({ match }) => {
   const { gameSlug } = match.params;
@@ -56,16 +56,8 @@ const DisplayedGame = ({ match }) => {
             </div>
             <div className="game-container__title">{game.name}</div>
             <div className="game-container__user-buttons">
-              <Button
-                associatedSlice="library"
-                gameSlug={gameSlug}
-                type="large"
-              />
-              <Button
-                associatedSlice="wishlist"
-                gameSlug={gameSlug}
-                type="large"
-              />
+              <Button associatedSlice="library" gameData={game} type="large" />
+              <Button associatedSlice="wishlist" gameData={game} type="large" />
             </div>
           </div>
         </div>
