@@ -22,7 +22,7 @@ const Navbar = () => {
           <i className="fas fa-gift" />
         </NavLink>
         <NavLink
-          to="/library"
+          to="/library/"
           className="navbar__link"
           activeClassName="navbar__link--selected"
           strict

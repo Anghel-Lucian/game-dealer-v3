@@ -36,7 +36,6 @@ const ButtonDropdown = ({ gameData, type }) => {
         className={`btn-add btn-add__${type} btn-dropdown__open`}
         onClick={handleOpening}
       >
-        {/* if in library => In library */}
         {renderButtonContent()}
       </button>
       <ul

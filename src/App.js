@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import './css/App.css';
 
-import Navbar from './app/Navbar';
+import Navbar from './components/Navbar';
 
 import SearchBar from './features/gamesSearch/SearchBar';
 import GamesResultsList from './features/gamesSearch/GamesResultsList';
@@ -29,7 +29,11 @@ const App = () => {
           <Switch>
             <Route path="/search/:query" exact component={GamesResultsList} />
             <Route path="/games/:gameSlug" exact component={DisplayedGame} />
-            <Route path="/library" exact component={LibraryList} />
+            <Route
+              path={['/library/:category', '/library']}
+              strict
+              component={LibraryList}
+            />
           </Switch>
         </div>
       </div>
