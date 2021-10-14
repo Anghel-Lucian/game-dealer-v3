@@ -4,16 +4,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   addGameToLibrary,
   removeGameFromLibrary,
-  selectLibraryGames,
+  selectCategorizedGames,
 } from '../features/library/librarySlice';
 
-const Button = ({ associatedSlice, gameData, type }) => {
-  const libraryGames = useSelector(selectLibraryGames);
+const Button = ({
+  associatedSlice,
+  gameData,
+  type,
+  libraryCategory,
+  additionalHandler,
+}) => {
+  const categorizedGames = useSelector(selectCategorizedGames);
   const dispatch = useDispatch();
 
   const onClickAddGame = () => {
     if (associatedSlice === 'library') {
-      dispatch(addGameToLibrary(gameData));
+      dispatch(addGameToLibrary({ gameData, libraryCategory }));
+      additionalHandler();
     }
 
     // if (associatedSlice === 'wishlist') {
@@ -23,7 +30,8 @@ const Button = ({ associatedSlice, gameData, type }) => {
 
   const onClickRemoveGame = () => {
     if (associatedSlice === 'library') {
-      dispatch(removeGameFromLibrary(gameData));
+      dispatch(removeGameFromLibrary({ gameData, libraryCategory }));
+      additionalHandler();
     }
 
     // if (associatedSlice === 'wishlist') {
@@ -32,17 +40,18 @@ const Button = ({ associatedSlice, gameData, type }) => {
   };
 
   const renderedButton = () => {
-    // need another way to check if libraryGames includes gameData since it is now an object with a different reference
     if (
-      libraryGames.find((game) => game.slug === gameData.slug) &&
-      associatedSlice === 'library'
+      associatedSlice === 'library' &&
+      categorizedGames[libraryCategory]?.find(
+        (game) => game.slug === gameData.slug
+      )
     ) {
       return (
         <button
           onClick={onClickRemoveGame}
           className={`btn-add btn-added__${associatedSlice} btn-add__${type}`}
         >
-          In library
+          In {libraryCategory}
         </button>
       );
     }
@@ -63,7 +72,7 @@ const Button = ({ associatedSlice, gameData, type }) => {
         onClick={onClickAddGame}
         className={`btn-add btn-add__${associatedSlice} btn-add__${type}`}
       >
-        Add to {associatedSlice}
+        Add to {libraryCategory ? libraryCategory : associatedSlice}
       </button>
     );
   };

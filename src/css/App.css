@@ -311,6 +311,8 @@ body {
 
 .result-card__options {
   margin: 10px 0px;
+  display: flex;
+  flex-direction: row;
 }
 
 .result-card__options .btn {
@@ -426,6 +428,8 @@ body {
 /* buttons */
 .game-container__user-buttons {
   margin-top: 5px;
+  display: flex;
+  flex-direction: row;
 }
 
 .btn-add {
@@ -484,6 +488,58 @@ body {
 .btn-added__library:hover {
   background-color: var(--color-delete);
   border-color: var(--color-delete);
+}
+
+.btn-dropdown__container {
+  width: fit-content;
+  height: fit-content;
+}
+
+.btn-dropdown__open {
+  width: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.btn-dropdown__open:hover {
+  background-color: var(--color-medium-light);
+  border-color: var(--color-medium-light);
+}
+
+.btn-dropdown__open__icon {
+  margin-top: -3px;
+}
+
+.btn-dropdown__list {
+  position: absolute;
+  border-radius: 5px;
+  overflow: hidden;
+  list-style: none;
+  margin: 0px;
+  margin-top: 10px;
+  padding: 0px;
+  width: 150px;
+}
+
+.btn-dropdown__list > * {
+  border-radius: 0px;
+  border-bottom: dotted 1px var(--color-dark);
+  margin: 0px;
+  width: 100%;
+}
+
+.btn-dropdown__list:last-child > *:last-child {
+  border-bottom: none;
+}
+
+.btn-dropdown__list--open {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-dropdown__list--closed {
+  display: none;
 }
 
 /* game container middle */
