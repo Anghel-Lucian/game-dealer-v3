@@ -12,6 +12,8 @@
   --color-medium-light: #dddddd;
   --color-error: #eb4808;
   --color-metacritic: #36e61f;
+  --color-confirmed: #017c0b;
+  --color-delete: #bb0600;
 
   --animation-speed: 0.2s;
   --animation-speed-loading: 1.5s;
@@ -309,6 +311,8 @@ body {
 
 .result-card__options {
   margin: 10px 0px;
+  display: flex;
+  flex-direction: row;
 }
 
 .result-card__options .btn {
@@ -424,6 +428,8 @@ body {
 /* buttons */
 .game-container__user-buttons {
   margin-top: 5px;
+  display: flex;
+  flex-direction: row;
 }
 
 .btn-add {
@@ -447,6 +453,7 @@ body {
 
 .btn-add__library:hover {
   background-color: var(--color-medium-light);
+  border-color: var(--color-medium-light);
 }
 
 .btn-add__wishlist {
@@ -464,6 +471,75 @@ body {
   padding: 5px 15px;
   font-size: 1rem;
   font-weight: 400;
+  width: 140px;
+}
+
+.btn-add__small {
+  width: 130px;
+}
+
+.btn-added__library {
+  background-color: var(--color-confirmed);
+  color: var(--color-light);
+  border: 1px solid var(--color-confirmed);
+  transition: all var(--animation-speed);
+}
+
+.btn-added__library:hover {
+  background-color: var(--color-delete);
+  border-color: var(--color-delete);
+}
+
+.btn-dropdown__container {
+  width: fit-content;
+  height: fit-content;
+}
+
+.btn-dropdown__open {
+  width: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.btn-dropdown__open:hover {
+  background-color: var(--color-medium-light);
+  border-color: var(--color-medium-light);
+}
+
+.btn-dropdown__open__icon {
+  margin-top: -3px;
+}
+
+.btn-dropdown__list {
+  position: absolute;
+  border-radius: 5px;
+  overflow: hidden;
+  list-style: none;
+  margin: 0px;
+  margin-top: 10px;
+  padding: 0px;
+  width: 150px;
+}
+
+.btn-dropdown__list > * {
+  border-radius: 0px;
+  border-bottom: dotted 1px var(--color-dark);
+  margin: 0px;
+  width: 100%;
+}
+
+.btn-dropdown__list:last-child > *:last-child {
+  border-bottom: none;
+}
+
+.btn-dropdown__list--open {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-dropdown__list--closed {
+  display: none;
 }
 
 /* game container middle */
@@ -554,10 +630,33 @@ body {
   max-width: 100%;
   height: 100%;
   object-fit: cover;
-  /* position: relative; */
   display: none;
 }
 
 .slider-container__displayed-image--visible {
   display: block;
+}
+
+/* LIBRARY */
+/* navigation */
+.library-nav__links {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.library-nav__link {
+  text-decoration: none;
+  color: var(--color-dark);
+  background-color: var(--color-light);
+  padding: 5px 15px;
+  border-radius: 20px;
+  margin-right: 20px;
+}
+
+.library-nav__link--selected {
+  color: var(--color-light);
+  background-color: var(--color-active-background);
 }

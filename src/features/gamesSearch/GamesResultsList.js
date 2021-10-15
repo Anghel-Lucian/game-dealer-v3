@@ -1,42 +1,20 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import {
-  fetchGames,
-  selectResults,
-  selectFetchingStatus,
-} from './gamesSearchSlice';
+import { fetchGames, selectResults } from './gamesSearchSlice';
 import { filterCharacters } from '../../app/helpers';
-import GameResultCard from '../../app/GameResultCard';
-import StatusDisplay from '../../app/StatusDisplay';
+import GamesList from '../../components/GamesList';
 
 const GamesResultsList = ({ match }) => {
   const { query } = match.params;
   const results = useSelector(selectResults);
-  const fetchingStatus = useSelector(selectFetchingStatus);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchGames(filterCharacters(query)));
   }, [query]);
 
-  const renderedGamesResults = () => {
-    if (fetchingStatus === 'succeeded') {
-      return results.map((gameData) => {
-        return <GameResultCard gameData={gameData} key={gameData.id} />;
-      });
-    }
-
-    return (
-      <StatusDisplay
-        status={fetchingStatus}
-        additionalStyleClass="results-list"
-        errorMessage="Could not find the game."
-      />
-    );
-  };
-
-  return <div className="game-results-list">{renderedGamesResults()}</div>;
+  return <GamesList data={results} withStatus={true} />;
 };
 
 export default GamesResultsList;

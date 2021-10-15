@@ -9,7 +9,7 @@ import {
   emptyPreviewResults,
 } from './gamesSearchSlice';
 import { filterCharacters } from '../../app/helpers';
-import StatusDisplay from '../../app/StatusDisplay';
+import StatusDisplay from '../../components/StatusDisplay';
 
 const GameResultsPreview = ({ query }) => {
   const previewResults = useSelector(selectPreviewResults);

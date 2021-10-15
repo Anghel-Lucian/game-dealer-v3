@@ -2,23 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import Button from './Button';
+import ButtonDropdown from './ButtonDropdown';
 
 const GameResultCard = ({ gameData }) => {
   return (
     <div className="result-card">
-      {/* here a mini img slider */}
-      {/* <div className="result-card__meta">
-        <div className="result-card__platform-icons">
-          <i className="fas fa-xbox"></i>
-        </div>
-        <div className="result-card__metascore">78</div>
-      </div> */}
       <Link to={`/games/${gameData.slug}`}>
         <div className="result-card__title">{gameData.name}</div>
       </Link>
       <div className="result-card__options">
-        <Button addTo="library" gameSlug={gameData.slug} type="small" />
-        <Button addTo="wishlist" gameSlug={gameData.slug} type="small" />
+        <ButtonDropdown gameData={gameData} type="small" />
+        <Button associatedSlice="wishlist" gameData={gameData} type="small" />
       </div>
       <div className="result-card__detail">
         {gameData.released ? (
